@@ -12,20 +12,22 @@ import org.openqa.selenium.WebElement;
 public class LoginAdminTest extends BaseTest {
 
     String baseUrl = "http://localhost/litecart/admin";
+    By usernameLocator = By.name("username");
+    By passwordLocator = By.name("password");
 
     @DisplayName("Проверка входа в админку приложения litecart")
     @Test
-    public void checkSearchByGoogleTest() {
+    public void checkLoginToAdminPanelTest() {
         driver.get(baseUrl);
-        By username = By.name("username");
-        WebElement usernameField = driver.findElement(username);
-        usernameField.clear();
-        usernameField.sendKeys("admin");
 
-        By password = By.name("password");
-        WebElement passwordField = driver.findElement(password);
-        passwordField.sendKeys("admin");
-        passwordField.sendKeys(Keys.ENTER);
+        WebElement username = driver.findElement(usernameLocator);
+        username.clear();
+        username.sendKeys("admin");
+
+
+        WebElement password = driver.findElement(passwordLocator);
+        password.sendKeys("admin");
+        password.sendKeys(Keys.ENTER);
 
         Assertions.assertTrue(driver.findElement(By.id("box-widgets")).isDisplayed());
     }

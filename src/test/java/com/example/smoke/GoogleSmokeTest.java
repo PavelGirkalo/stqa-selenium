@@ -14,7 +14,6 @@ public class GoogleSmokeTest extends BaseTest {
     public void checkSearchByGoogleTest() {
         driver.get(baseUrl);
         driver.findElement(By.name("q")).click();
-        driver.findElement(By.name("q")).sendKeys(Keys.DOWN);
         driver.findElement(By.name("q")).clear();
         driver.findElement(By.name("q")).sendKeys("maven repository");
         driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
