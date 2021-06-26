@@ -1,12 +1,12 @@
-package com.example.litecart.admin;
+package ru.stqa.litecart.admin;
 
-import com.example.BaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import ru.stqa.BaseTest;
 
 
 public class LoginAdminTest extends BaseTest {
