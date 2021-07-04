@@ -4,13 +4,13 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import ru.stqa.BaseTest;
-import ru.stqa.litecart.models.Country;
+import ru.stqa.litecart.models.admin.Country;
 import ru.stqa.litecart.pages.login.LoginPage;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.stqa.litecart.models.Country.createListOfCountries;
+import static ru.stqa.litecart.models.admin.Country.createListOfCountries;
 
 public class CountriesTests extends BaseTest {
 

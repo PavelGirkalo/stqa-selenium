@@ -1,4 +1,4 @@
-package ru.stqa.litecart.models;
+package ru.stqa.litecart.models.admin;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
