@@ -4,21 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Country {
-    String selected;
-    String color;
-    int id;
     String code;
     String name;
     int zones;
 
-    public Country(String selected, String color, int id, String code, String name, int zones) {
-        this.selected = selected;
-        this.color = color;
-        this.id = id;
+    public Country(int id, String code, String name, int zones) {
         this.code = code;
         this.name = name;
         this.zones = zones;
@@ -27,12 +20,10 @@ public class Country {
     }
 
     public Country(WebElement webElement) {
-        this.selected = webElement.findElement(By.cssSelector("input[type=checkbox]")).getAttribute("checked");
-        this.color = webElement.findElement(By.cssSelector("i.fa.fa-circle")).getAttribute("style");
-        this.id = Integer.parseInt(webElement.findElement(By.xpath(".//td[3]")).getAttribute("textContent"));
-        this.code = webElement.findElement(By.xpath(".//td[4]")).getAttribute("textContent");
-        this.name = webElement.findElement(By.xpath(".//td[5]/a")).getAttribute("textContent");
-        this.zones = Integer.parseInt(webElement.findElement(By.xpath(".//td[6]")).getAttribute("textContent"));
+        List<WebElement> countryFields = webElement.findElements(By.xpath(".//td"));
+        this.code = countryFields.get(3).getAttribute("textContent");
+        this.name = countryFields.get(4).findElement(By.xpath("./a")).getAttribute("textContent");
+        this.zones = Integer.parseInt(countryFields.get(5).getAttribute("textContent"));
 
         System.out.println("Country with name " + name + " created successfully");
     }
@@ -45,30 +36,6 @@ public class Country {
         }
 
         return countries;
-    }
-
-    public String getSelected() {
-        return selected;
-    }
-
-    public void setSelected(String selected) {
-        this.selected = selected;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCode() {
@@ -93,10 +60,5 @@ public class Country {
 
     public void setZones(int zones) {
         this.zones = zones;
-    }
-
-    public int compareTo(Country c) {
-        return Comparator.comparing(Country::getName)
-                .compare(this, c);
     }
 }
