@@ -63,6 +63,11 @@ public class AdminPage {
         driver.findElement(catalogLocator).click();
     }
 
+    public AddNewProductPage openNewProductPage() {
+        driver.findElement(By.xpath("//a[text()=' Add New Product']")).click();
+        return new AddNewProductPage(driver);
+    }
+
     public void openCatalogCatalog() {
         driver.findElement(catalogLocator).click();
         driver.findElement(catalogCatalogLocator).click();
