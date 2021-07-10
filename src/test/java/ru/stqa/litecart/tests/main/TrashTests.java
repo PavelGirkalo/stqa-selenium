@@ -3,7 +3,6 @@ package ru.stqa.litecart.tests.main;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.stqa.BaseTest;
@@ -12,7 +11,8 @@ import ru.stqa.litecart.pages.main.MainPage;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElementsToBe;
+import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
 
 public class TrashTests extends BaseTest {
 
@@ -60,7 +60,7 @@ public class TrashTests extends BaseTest {
 
             driver.findElement(By.cssSelector("button[name=remove_cart_item]")).click();
             wait.until(numberOfElementsToBe(By.cssSelector("#order_confirmation-wrapper tr"),
-                    productCountBeforeDelete-1));
+                    productCountBeforeDelete - 1));
         }
 
         driver.findElement(By.cssSelector("button[name=remove_cart_item]")).click();
