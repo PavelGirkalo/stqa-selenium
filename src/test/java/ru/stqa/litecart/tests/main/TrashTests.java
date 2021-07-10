@@ -20,7 +20,7 @@ public class TrashTests extends BaseTest {
     WebDriverWait wait = new WebDriverWait(driver, 3);
 
     @Test
-    public void checkCreatingNewAccountTest() {
+    public void checkAddingProductsToTrashTest() {
         driver.get(baseUrl);
 
         MainPage mainPage = new MainPage(driver);
