@@ -3,14 +3,18 @@ package ru.stqa.litecart.tests.admin;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.stqa.BaseTest;
 import ru.stqa.litecart.models.admin.Country;
 import ru.stqa.litecart.pages.login.LoginPage;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.stqa.litecart.models.admin.Country.createListOfCountries;
+import static ru.stqa.utils.Utils.anyWindowOtherThan;
 
 public class CountriesTests extends BaseTest {
 
@@ -20,7 +24,7 @@ public class CountriesTests extends BaseTest {
         LoginPage loginPage = new LoginPage(driver);
         driver.get(baseUrl);
         loginPage.successLoginByAdmin("admin", "admin");
-        Assertions.assertTrue(isElementPresent(driver, By.id("sidebar")));
+        assertTrue(isElementPresent(driver, By.id("sidebar")));
     }
 
     @DisplayName("Check sorting of countries and zones by alphabetic")
@@ -31,7 +35,7 @@ public class CountriesTests extends BaseTest {
         List<Country> countries = createListOfCountries(webElements);
 
         for (int i = 1; i < countries.size(); i++) {
-            Assertions.assertTrue(countries.get(i).getName().compareToIgnoreCase(countries.get(i - 1).getName()) > 0);
+            assertTrue(countries.get(i).getName().compareToIgnoreCase(countries.get(i - 1).getName()) > 0);
         }
 
         List<Country> countriesWithZones = countries.stream()
@@ -52,14 +56,34 @@ public class CountriesTests extends BaseTest {
                     .collect(Collectors.toList());
 
             for (int i = 1; i < zoneNames.size(); i++) {
-                Assertions.assertTrue(zoneNames.get(i).compareToIgnoreCase(zoneNames.get(i - 1)) > 0);
+                assertTrue(zoneNames.get(i).compareToIgnoreCase(zoneNames.get(i - 1)) > 0);
             }
         }
+    }
+
+    @DisplayName("Check all links from Edit Country Page")
+    @Test
+    public void checkLinksFromEditCountryPageTest() {
+        driver.findElement(By.xpath("//span[text()='Countries']")).click();
+        List<WebElement> editCountryButtons = driver.findElements(By.cssSelector("td > a[title=Edit]"));
+        editCountryButtons.get(0).click();
+
+        List<WebElement> links = driver.findElements(By.cssSelector("i.fa-external-link"));
+        String mainWindowHandle = driver.getWindowHandle();
+        Set<String> oldWindowHandles = driver.getWindowHandles();
+
+        for (WebElement link : links) {
+            link.click();
+            String newWindow = wait.until(anyWindowOtherThan(oldWindowHandles));
+            driver.switchTo().window(newWindow).close();
+            driver.switchTo().window(mainWindowHandle);
+        }
+        assertTrue(driver.findElement(By.xpath("//h1")).getAttribute("textContent").contains("Edit Country"));
     }
 
     @AfterEach
     public void logout() {
         driver.findElement(By.cssSelector("[title=Logout]")).click();
-        Assertions.assertTrue(isElementPresent(driver, By.cssSelector("[name=username]")));
+        assertTrue(isElementPresent(driver, By.cssSelector("[name=username]")));
     }
 }
