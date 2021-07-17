@@ -13,9 +13,13 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import static ru.stqa.utils.Utils.getProperties;
@@ -24,6 +28,7 @@ import static ru.stqa.utils.Utils.getProperties;
 public class BaseTest {
 
     public static final String BROWSER_NAME = getProperties().getProperty("browser");
+    public static final String URL_FOR_GRID = getProperties().getProperty("url.grid");
     public static WebDriver driver;
     public static WebDriverWait wait;
 
@@ -62,6 +67,26 @@ public class BaseTest {
             case "IE":
                 WebDriverManager.iedriver().setup();
                 driver = new InternetExplorerDriver();
+                break;
+            case "IE_REMOTE":
+                try {
+                    driver = new RemoteWebDriver(new URL(URL_FOR_GRID), new InternetExplorerOptions());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "CHROME_REMOTE":
+                try {
+                    driver = new RemoteWebDriver(new URL(URL_FOR_GRID), new ChromeOptions());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                WebDriverManager.chromedriver().setup();
+                chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("start-maximized");
+                driver = new ChromeDriver(chromeOptions);
                 break;
         }
 
