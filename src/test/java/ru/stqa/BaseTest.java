@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -38,6 +39,12 @@ public class BaseTest {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
+
+//                Proxy proxy = new Proxy();
+//                proxy.setHttpProxy("localhost:8866");
+//                proxy.setSslProxy("localhost:8866");
+//                chromeOptions.setCapability("proxy", proxy);
+
                 chromeOptions.addArguments("start-maximized");
                 driver = new ChromeDriver(chromeOptions);
                 break;
