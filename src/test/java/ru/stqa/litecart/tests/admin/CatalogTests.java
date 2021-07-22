@@ -52,4 +52,24 @@ public class CatalogTests extends BaseTest {
         assertEquals(1, productCountAfterCreate - productCountBeforeCreate);
         assertTrue(isElementPresent(driver, By.xpath("//a[text()='" + name + "']")));
     }
+
+    @Test
+    public void checkConsoleLogsFromAllEditProductPagesTest() {
+        adminPage.openCatalogMenu();
+        driver.findElement(By.xpath("//a[contains(@href,'category_id=1')]")).click();
+
+        List<WebElement> listOfProducts = driver.findElements(By.xpath("//a[contains(@href,'product_id=')][@title='Edit']"));
+
+        for (int i = 0; i < listOfProducts.size(); i++) {
+            adminPage.openCatalogMenu();
+            driver.findElement(By.xpath("//a[contains(@href,'category_id=1')]")).click();
+            listOfProducts = driver.findElements(By.xpath("//a[contains(@href,'product_id=')][@title='Edit']"));
+
+            int logCountBeforeClick = driver.manage().logs().get("browser").getAll().size();
+            listOfProducts.get(i).click();
+            int logCountAfterClick = driver.manage().logs().get("browser").getAll().size();
+
+            assertEquals(logCountAfterClick, logCountBeforeClick);
+        }
+    }
 }
