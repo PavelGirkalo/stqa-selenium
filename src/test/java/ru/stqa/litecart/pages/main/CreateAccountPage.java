@@ -5,13 +5,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.Random;
+import ru.stqa.litecart.pages.Page;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreateAccountPage {
-    WebDriver driver;
+public class CreateAccountPage extends Page {
 
     By firstNameLocator = By.name("firstname");
     By lastNameLocator = By.name("lastname");
@@ -31,13 +29,12 @@ public class CreateAccountPage {
     By creteAccountButtonLocator = By.name("create_account");
 
     public CreateAccountPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void isCreateAccountPage() {
         assertTrue(driver.findElement(By.xpath("//h1[text()='Create Account']")).isDisplayed());
     }
-
 
     public MainPage createNewAccount(String mail, String password, int suffix) {
         String firstName = "Name_" + suffix;

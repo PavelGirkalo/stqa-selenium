@@ -4,14 +4,25 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ru.stqa.litecart.pages.Page;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MainPage {
-    WebDriver driver;
+public class MainPage extends Page {
+
+    String baseUrl = "http://localhost/litecart";
+
+    By popularProductsLocator = By.cssSelector("#box-most-popular li");
 
     public MainPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+    }
+
+    public MainPage openMainPage() {
+        driver.get(baseUrl);
+        return new MainPage(driver);
     }
 
     public void isMainPage() {
@@ -47,5 +58,14 @@ public class MainPage {
         passForLogin.sendKeys(password, Keys.ENTER);
 
         return new MainPage(driver);
+    }
+
+    public List<WebElement> getPopularProductList() {
+        return driver.findElements(popularProductsLocator);
+    }
+
+    public ProductPage openFirstPopularProduct(List<WebElement> popularProducts) {
+        popularProducts.get(0).click();
+        return new ProductPage(driver);
     }
 }
